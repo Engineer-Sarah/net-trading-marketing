@@ -498,3 +498,42 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){
   #contact .contact-info a,#contact .form-actions .btn{transition:none}
 }
+
+
+/* Contact section refresh — polished, responsive appointment experience */
+#contact{position:relative;isolation:isolate;overflow:hidden}
+#contact::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,rgba(245,180,0,.8),transparent);pointer-events:none}
+#contact .contact-grid{position:relative;gap:clamp(32px,5vw,76px);align-items:start}
+#contact .contact-grid>div:first-child{padding-top:clamp(4px,2vw,22px)}
+#contact .section-title-light{max-width:500px;font-size:clamp(2.15rem,4vw,3.35rem);letter-spacing:-.045em;line-height:1.06}
+#contact .contact-lede{max-width:470px;font-size:1.04rem;line-height:1.8;color:#c5d3e2}
+#contact .contact-info{display:grid;gap:10px;margin:28px 0}
+#contact .contact-info li{display:flex;align-items:center;gap:13px;min-width:0;padding:13px 15px;border:1px solid rgba(255,255,255,.10);border-radius:13px;background:rgba(255,255,255,.035);transition:background .2s ease,border-color .2s ease,transform .2s ease}
+#contact .contact-info li:hover{background:rgba(255,255,255,.075);border-color:rgba(245,180,0,.42);transform:translateX(3px)}
+#contact .contact-info .icon{width:20px;height:20px;color:var(--yellow-500)}
+#contact .contact-info a,#contact .contact-info li span{overflow-wrap:anywhere;color:#f4f7fb;font-size:.93rem}
+#contact .contact-info a:hover{color:var(--yellow-400);text-decoration:none}
+#contact .contact-form{background:#fff;color:var(--ink-900);border:1px solid rgba(255,255,255,.75);border-radius:22px;padding:clamp(22px,3vw,36px);box-shadow:0 24px 80px rgba(0,0,0,.24)}
+#contact .field{display:flex;flex-direction:column;gap:8px;margin-bottom:17px;min-width:0}
+#contact .field label{font-size:.82rem;font-weight:650;color:#18304c}
+#contact .field input,#contact .field select,#contact .field textarea{width:100%;min-width:0;min-height:49px;padding:12px 14px;border:1px solid #dce4ee;border-radius:10px;background:#f6f8fb;color:#0d2037;font:inherit;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+#contact .field textarea{min-height:125px;resize:vertical;line-height:1.6}
+#contact .field input:focus,#contact .field select:focus,#contact .field textarea:focus{outline:none;border-color:var(--yellow-500);background:#fff;box-shadow:0 0 0 4px rgba(245,180,0,.14)}
+#contact .field.has-error input,#contact .field.has-error textarea{border-color:#dc4545;background:#fffafa}
+#contact .field-error{color:#c62828;font-size:.78rem;line-height:1.4}
+#contact .form-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:5px}
+#contact .form-actions .btn{display:inline-flex;justify-content:center;align-items:center;min-height:52px;padding:13px 18px;border-radius:999px;font-weight:700;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+#contact .form-actions .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(7,27,51,.12)}
+#contact .form-actions .btn-primary{background:var(--yellow-500);color:var(--navy-900);border:1px solid var(--yellow-500)}
+#contact .form-actions .btn-ghost{background:#f1f4f8;color:var(--navy-900);border:1px solid #dbe3ec}
+#contact .form-success{padding:12px 14px;margin:0 0 16px;border-radius:10px;background:#eaf8ef;color:#176437;font-size:.9rem}
+#contact .social-row a{transition:background .2s ease,border-color .2s ease,color .2s ease}
+#contact .social-row a:hover{background:var(--yellow-500);border-color:var(--yellow-500);color:var(--navy-900)}
+@media(max-width:760px){
+ #contact.section{padding:68px 0}
+ #contact .contact-grid{grid-template-columns:1fr;gap:28px}
+ #contact .contact-form{padding:22px 18px;border-radius:18px}
+ #contact .form-actions{grid-template-columns:1fr}
+ #contact .form-actions .btn{width:100%}
+ #contact .contact-info li:hover{transform:none}
+}
