@@ -186,13 +186,16 @@
   function initForm() {
     var form = document.getElementById('contactForm');
     if (!form) return;
+
     var success = document.getElementById('formSuccess');
+    var emailButton = document.getElementById('sendEmail');
+    var whatsappNumber = '923308119320';
 
     var rules = {
       fName: function (v) { return v.trim().length > 1 || 'Please enter your name.'; },
-      fEmail: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Enter a valid email address.'; },
+      fEmail: function (v) { return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v) || 'Enter a valid email address.'; },
       fPhone: function (v) { return v.replace(/[^0-9]/g, '').length >= 7 || 'Enter a valid phone number.'; },
-      fMessage: function (v) { return v.trim().length > 4 || 'Tell us briefly what you need.'; }
+      fMessage: function (v) { return v.trim().length > 4 || 'Please add a few details about your requirement.'; }
     };
 
     function validateField(input) {
@@ -204,34 +207,96 @@
       if (result === true) {
         if (field) field.classList.remove('has-error');
         if (errorEl) errorEl.textContent = '';
+        input.setAttribute('aria-invalid', 'false');
         return true;
       }
       if (field) field.classList.add('has-error');
       if (errorEl) errorEl.textContent = result;
+      input.setAttribute('aria-invalid', 'true');
       return false;
     }
 
-    Object.keys(rules).forEach(function (id) {
-      var input = document.getElementById(id);
-      if (input) input.addEventListener('blur', function () { validateField(input); });
-    });
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+    function validateForm() {
       var valid = true;
       Object.keys(rules).forEach(function (id) {
         var input = document.getElementById(id);
         if (input && !validateField(input)) valid = false;
       });
       if (!valid) {
-        var firstError = form.querySelector('.has-error input, .has-error textarea');
+        var firstError = form.querySelector('[aria-invalid="true"]');
         if (firstError) firstError.focus();
-        return;
       }
-      // No backend wired up yet — acknowledge locally.
-      if (success) success.hidden = false;
-      form.reset();
+      return valid;
+    }
+
+    function buildMessage() {
+      var value = function (id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      };
+      var interest = document.getElementById('fInterest');
+      var interestLabel = interest && interest.selectedOptions.length
+        ? interest.selectedOptions[0].textContent.trim() : 'Not specified';
+      return [
+        'APPOINTMENT / QUOTE REQUEST — Net Trading & Marketing',
+        '',
+        'Name: ' + value('fName'),
+        'Company: ' + (value('fCompany') || 'Not provided'),
+        'Email: ' + value('fEmail'),
+        'Phone: ' + value('fPhone'),
+        'Interested in: ' + interestLabel,
+        'Preferred date: ' + (value('fDate') || 'Flexible'),
+        'Preferred time: ' + (value('fTime') || 'Flexible'),
+        '',
+        'Project details:',
+        value('fMessage')
+      ].join('\\n');
+    }
+
+    function showSuccess(message) {
+      if (!success) return;
+      success.textContent = message;
+      success.hidden = false;
+    }
+
+    Object.keys(rules).forEach(function (id) {
+      var input = document.getElementById(id);
+      if (input) {
+        input.addEventListener('blur', function () { validateField(input); });
+        input.addEventListener('input', function () {
+          if (input.getAttribute('aria-invalid') === 'true') validateField(input);
+        });
+      }
     });
+
+    // Prevent choosing an appointment date in the past.
+    var dateInput = document.getElementById('fDate');
+    if (dateInput) {
+      var today = new Date();
+      dateInput.min = today.getFullYear() + '-' +
+        String(today.getMonth() + 1).padStart(2, '0') + '-' +
+        String(today.getDate()).padStart(2, '0');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!validateForm()) return;
+      var url = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(buildMessage());
+      var opened = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!opened) window.location.href = url;
+      showSuccess('Your request is ready in WhatsApp. Please press Send there to confirm your appointment or quote request.');
+    });
+
+    if (emailButton) {
+      emailButton.addEventListener('click', function () {
+        if (!validateForm()) return;
+        var subject = 'Appointment / Quote Request — Net Trading & Marketing';
+        var mailto = 'mailto:khubibabrar1@gmail.com?subject=' +
+          encodeURIComponent(subject) + '&body=' + encodeURIComponent(buildMessage());
+        window.location.href = mailto;
+        showSuccess('Your email app should open with the request filled in. Please press Send to submit it.');
+      });
+    }
   }
 
   /* =========================================================
