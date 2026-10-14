@@ -452,3 +452,49 @@ button{font:inherit}
 .wa-float:hover{transform:scale(1.08)}
 @media (max-width:640px){ .form-row{grid-template-columns:1fr} .contact-form{padding:24px} }
 @media (prefers-reduced-motion:reduce){ .wa-float{transition:none} }
+
+
+/* =========================================================
+   CONTACT / APPOINTMENT UX POLISH
+   ========================================================= */
+#contact .contact-grid{gap:clamp(28px,5vw,72px);align-items:start}
+#contact .contact-grid> .reveal:first-child{padding-top:10px}
+#contact .contact-lede{color:#c5d3e2;line-height:1.8}
+#contact .contact-info{gap:14px}
+#contact .contact-info li{align-items:flex-start;line-height:1.55;overflow-wrap:anywhere}
+#contact .contact-info li .icon{flex:0 0 20px;margin-top:2px}
+#contact .contact-info a{transition:color .2s ease}
+#contact .contact-info a:hover{color:var(--yellow-500);text-decoration:none}
+#contact .contact-form{
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 24px 70px rgba(0,0,0,.22);
+  padding:clamp(22px,3vw,36px);
+}
+#contact .field{min-width:0;margin-bottom:16px;gap:8px}
+#contact .field label{font-size:.84rem;letter-spacing:.01em}
+#contact .field input,#contact .field select,#contact .field textarea{
+  width:100%;min-height:48px;border-radius:10px;border:1px solid #d8e1eb;
+  background:#f5f7fa;padding:12px 14px;box-sizing:border-box;
+}
+#contact .field textarea{min-height:116px;line-height:1.6}
+#contact .field input:focus,#contact .field select:focus,#contact .field textarea:focus{
+  border-color:var(--yellow-500);box-shadow:0 0 0 3px rgba(255,183,0,.16);outline:none;
+}
+#contact .field.has-error input,#contact .field.has-error textarea{border-color:#dc4545;background:#fffafa}
+#contact .field-error{font-size:.78rem;line-height:1.35}
+#contact .form-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+#contact .form-actions .btn{min-height:52px;border-radius:999px;font-weight:700;cursor:pointer;white-space:normal}
+#contact .form-actions .btn-primary{background:var(--yellow-500);color:var(--navy-900);border:1px solid var(--yellow-500)}
+#contact .form-actions .btn-primary:hover{filter:brightness(.96);transform:translateY(-1px)}
+#contact .form-actions .btn-ghost{background:#f4f6f8;color:var(--navy-900);border:1px solid #d8e1eb}
+#contact .form-actions .btn-ghost:hover{background:#e8edf3}
+#contact .form-success{line-height:1.55}
+@media(max-width:680px){
+  #contact .contact-grid{gap:30px}
+  #contact .contact-form{padding:22px 18px}
+  #contact .form-actions{grid-template-columns:1fr}
+  #contact .form-actions .btn{width:100%;min-height:50px}
+}
+@media(prefers-reduced-motion:reduce){
+  #contact .contact-info a,#contact .form-actions .btn{transition:none}
+}
